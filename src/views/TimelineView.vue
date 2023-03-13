@@ -1,10 +1,13 @@
 <script setup>
 import axios from 'axios'
 import { onMounted, ref, } from 'vue';
+import { useUserStore } from '../stores/user-store';
 const scheduleList = ref([]);
 
 // 현재 페이지가 마운트 될경우 이벤트 정의
 onMounted(() => {
+  const userStore = useUserStore();
+  console.log(userStore.token);
   getList();
 });
 

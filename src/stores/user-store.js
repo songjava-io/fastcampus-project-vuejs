@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { defineStore } from "pinia";
+import { acceptHMRUpdate, defineStore } from "pinia";
 
 export const useUserStore = defineStore(
   "user",
@@ -30,8 +30,10 @@ export const useUserStore = defineStore(
     return { token, user, logout, setAuthUser, setToken };
   },
   {
-    persistedState: {
-      // excludePaths: ["menus"],
-    },
-  }
+    persist: true
+  },
 );
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useUserStore, import.meta.hot))
+}

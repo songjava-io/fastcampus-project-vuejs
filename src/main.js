@@ -1,38 +1,47 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+
 import App from "./App.vue";
 import router from "./router";
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
-
-// Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import "./assets/main.css";
+import { useUserStore } from "./stores/user-store";
 
 const vuetify = createVuetify({
   components,
   directives,
 })
 
-import "./assets/main.css";
-
-axios.defaults.baseURL = 'http://dev-spring.com:8080';
-
 const app = createApp(App);
 
-// 새로고침 상태 값 날라가는거 방지
 const pinia = createPinia();
-const installPersistedStatePlugin = createPersistedStatePlugin();
-pinia.use((context) => installPersistedStatePlugin(context));
+pinia.use(piniaPluginPersistedstate);
 
 app.use(pinia);
 app.use(router);
 app.use(vuetify);
 app.use(VueAxios, axios)
+
+const userStore = useUserStore();
+
+axios.defaults.baseURL = 'http://dev-spring.com:8080';
+
+// axios 인터셉터 추가
+axios.interceptors.request.use((config) => {
+  
+  // 토큰이 있는경우 헤더에 추가 후 서버 요청..
+  if (userStore && userStore.token) {
+    config.headers.Authorization = `Bearer ${userStore.token}`;
+  }
+  console.log('config.headers', config.headers);
+  return config;
+});
 
 app.mount("#app");
