@@ -23,10 +23,15 @@ const router = createRouter({
       component: () => import("../views/LoginView.vue"),
     },
     {
-      path: "/timeline",
-      name: "timeline",
+      path: "/timeline/list",
+      name: "timelineLine",
       component: () => import("../views/TimelineView.vue"),
-    },    
+    },  
+    {
+      path: "/timeline/form",
+      name: "timeline",
+      component: () => import("../views/TimelineFormView.vue"),
+    },        
   ],
 });
 

@@ -1,9 +1,12 @@
 <script setup>
 import axios from 'axios'
 import { onMounted, ref, } from 'vue';
+import { useUserStore } from "../stores/user-store";
+import { useRouter } from "vue-router";
 const username = ref('kakao1@gmail.com');
 const password = ref('test1234@@');
-
+const userStore = useUserStore();
+const router = useRouter();
 // 현재 페이지가 마운트 될경우 이벤트 정의
 onMounted(() => {
 });
@@ -14,6 +17,10 @@ const login = async () => {
   formData.append("password", password.value);
   axios.post('/login', formData).then((res) => {
     console.log('login response', res);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${res.data}`;
+    userStore.setToken(res.data);
+    alert("로그인 성공.");
+    router.push("/timeline/list");    
   })
   .catch((err) => {
     console.log('error', err.response.data);

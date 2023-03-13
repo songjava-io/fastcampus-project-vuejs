@@ -28,14 +28,15 @@ const getList = async () => {
       size="small"
     >
       <div class="d-flex">
-        <strong class="me-4">{{ schedule.startTime }} ~ {{ schedule.endTime }}</strong>
+        <strong class="me-4">{{ schedule.startTime.label }} ~ {{ schedule.endTime.label }}</strong>
         <div>
-          <strong>{{ schedule.scheduleType }}</strong>
+          <strong>{{ schedule.scheduleType.label }}</strong>
           <div class="text-caption">
-            {{ schedule.title }}
+            [{{ schedule.scheduleDate }}] {{ schedule.title }}
           </div>
         </div>
       </div>
     </v-timeline-item>
   </v-timeline>  
+  
 </template>
