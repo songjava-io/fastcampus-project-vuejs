@@ -41,5 +41,5 @@ const getList = async () => {
       </div>
     </v-timeline-item>
   </v-timeline>  
-  
+  <a href="http://dev-spring.com:8080/member/schedule/download">전체 회원 일정 다운로드</a>
 </template>
